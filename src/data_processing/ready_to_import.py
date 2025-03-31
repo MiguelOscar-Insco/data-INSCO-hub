@@ -2,6 +2,7 @@ import pandas as pd
 import os
 from typing import List, Tuple
 import logging
+import sys
 
 # Configurar logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s: %(message)s')
@@ -9,9 +10,9 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s: %(m
 def to_prepare_db(db: pd.DataFrame) -> pd.DataFrame:
     """
     Procesa el DataFrame:
-    - Une el contenido de 'Asignados' de las filas con 'NUMERO DE INFORME' NaN 
+    - Une el contenido de 'assignee' de las filas con 'report_number' NaN 
       a la fila anterior.
-    - Elimina las filas donde 'NUMERO DE INFORME' es NaN.
+    - Elimina las filas donde 'report_number' es NaN.
     
     Args:
         db (pd.DataFrame): DataFrame de entrada a procesar
@@ -25,7 +26,7 @@ def to_prepare_db(db: pd.DataFrame) -> pd.DataFrame:
             raise TypeError("La entrada debe ser un DataFrame de pandas")
         
         # Validar columnas requeridas
-        columnas_requeridas = ['NUMERO DE INFORME', 'Asignados']
+        columnas_requeridas = ['report_number', 'assignee']
         for columna in columnas_requeridas:
             if columna not in db.columns:
                 raise ValueError(f"Columna '{columna}' no encontrada en el DataFrame")
@@ -33,21 +34,21 @@ def to_prepare_db(db: pd.DataFrame) -> pd.DataFrame:
         # Crear copia del DataFrame para evitar modificar el original
         db_copy = db.copy()
         
-        # Identificar filas con NaN en 'NUMERO DE INFORME'
-        sin_inf = db_copy[db_copy['NUMERO DE INFORME'].isnull()].copy()
+        # Identificar filas con NaN en 'report_number'
+        sin_inf = db_copy[db_copy['report_number'].isnull()].copy()
         
-        # Recorrer índices en orden inverso para concatenar 'Asignados'
+        # Recorrer índices en orden inverso para concatenar 'assignee'
         for idx in reversed(sin_inf.index):
             fila_anterior = idx - 1
             
             # Verificar que la fila anterior existe
             if fila_anterior in db_copy.index:
-                db_copy.at[fila_anterior, 'Asignados'] = (
-                    f"{db_copy.at[fila_anterior, 'Asignados']}, {db_copy.at[idx, 'Asignados']}"
+                db_copy.at[fila_anterior, 'assignee'] = (
+                    f"{db_copy.at[fila_anterior, 'assignee']}, {db_copy.at[idx, 'assignee']}"
                 )
         
         # Eliminar filas sin número de informe
-        prep_db = db_copy.dropna(subset=['NUMERO DE INFORME']).reset_index(drop=True)
+        prep_db = db_copy.dropna(subset=['report_number']).reset_index(drop=True)
         
         return prep_db
     
@@ -55,63 +56,105 @@ def to_prepare_db(db: pd.DataFrame) -> pd.DataFrame:
         logging.error(f"Error al preparar el DataFrame: {e}")
         raise
 
-def to_store() -> Tuple[List[pd.DataFrame], List[str]]:
+def cargar_archivo(nombre_archivo: str) -> pd.DataFrame:
     """
-    Solicita y procesa archivos CSV.
+    Carga un archivo CSV en un DataFrame.
     
+    Args:
+        nombre_archivo (str): Nombre del archivo a cargar
+        
     Returns:
-        Tuple con lista de DataFrames procesados y sus nombres de salida
+        pd.DataFrame: DataFrame con los datos del archivo
+        
+    Raises:
+        FileNotFoundError: Si el archivo no existe
+        Exception: Para otros errores en la carga
     """
-    nombres = []
-    
-    # Solicitar nombres de archivos
-    while True:
-        nombre = input("Ingresa un nombre de archivo CSV (sin extensión, Enter para salir): ").strip()
-        
-        if not nombre:
-            break
-        
-        # Agregar extensión .csv
-        nombre_archivo = f"{nombre}.csv"
-        
-        # Validar existencia del archivo
+    try:
         if not os.path.exists(nombre_archivo):
-            logging.warning(f"El archivo '{nombre_archivo}' no existe. Se omitirá.")
-            continue
-        
-        nombres.append(nombre_archivo)
-    
-    # Procesar archivos y generar nombres de salida
-    try:
-        dataframes = [to_prepare_db(pd.read_csv(nombre)) for nombre in nombres]
-        nombres_salida = [nombre.replace('.csv', '_prep.csv') for nombre in nombres]
-        
-        return dataframes, nombres_salida
-    
+            raise FileNotFoundError(f"El archivo '{nombre_archivo}' no existe")
+            
+        return pd.read_csv(nombre_archivo)
     except Exception as e:
-        logging.error(f"Error procesando archivos: {e}")
-        return [], []
+        logging.error(f"Error al cargar el archivo {nombre_archivo}: {e}")
+        raise
 
-def convert_to_csv():
+def guardar_archivo(df: pd.DataFrame, nombre_salida: str) -> bool:
     """
-    Convierte DataFrames procesados a archivos CSV.
-    Maneja posibles errores durante la conversión.
+    Guarda un DataFrame en un archivo CSV.
+    
+    Args:
+        df (pd.DataFrame): DataFrame a guardar
+        nombre_salida (str): Nombre del archivo de salida
+        
+    Returns:
+        bool: True si se guardó correctamente, False en caso contrario
     """
     try:
-        dataframes, nombres_salida = to_store()
-        
-        # Guardar DataFrames procesados
-        for i, df in enumerate(dataframes):
-            try:
-                df.to_csv(nombres_salida[i], index=False)
-                logging.info(f"Archivo guardado: {nombres_salida[i]}")
-            except IOError as e:
-                logging.error(f"Error guardando {nombres_salida[i]}: {e}")
-        
-        print("Archivos CSV creados exitosamente.")
-    
+        df.to_csv(nombre_salida, index=False)
+        logging.info(f"Archivo guardado: {nombre_salida}")
+        return True
     except Exception as e:
-        logging.error(f"Error general en la conversión: {e}")
+        logging.error(f"Error guardando {nombre_salida}: {e}")
+        return False
+
+def procesar_archivos() -> None:
+    """
+    Solicita nombres de archivos al usuario, los procesa y guarda los resultados.
+    """
+    try:
+        # Lista para almacenar nombres de archivos a procesar
+        archivos_a_procesar = []
+        
+        # Solicitar nombres de archivos
+        print("Ingresa un nombre de archivo CSV (sin extensión, Enter para salir):")
+        while True:
+            nombre = input().strip()
+            
+            if not nombre:
+                break
+            
+            # Agregar extensión .csv si no la tiene
+            if not nombre.lower().endswith('.csv'):
+                nombre_archivo = f"{nombre}.csv"
+            else:
+                nombre_archivo = nombre
+            
+            archivos_a_procesar.append(nombre_archivo)
+        
+        if not archivos_a_procesar:
+            print("No se ingresaron archivos para procesar.")
+            return
+            
+        archivos_procesados = 0
+        
+        # Procesar cada archivo
+        for archivo in archivos_a_procesar:
+            try:
+                # Generar nombre de archivo de salida
+                nombre_salida = archivo.replace('.csv', '_prep.csv')
+                
+                # Cargar, procesar y guardar
+                df = cargar_archivo(archivo)
+                df_procesado = to_prepare_db(df)
+                if guardar_archivo(df_procesado, nombre_salida):
+                    archivos_procesados += 1
+                    
+            except FileNotFoundError as e:
+                logging.warning(str(e))
+            except Exception as e:
+                logging.error(f"Error procesando {archivo}: {e}")
+        
+        if archivos_procesados > 0:
+            print(f"Archivos CSV creados exitosamente: {archivos_procesados}")
+        else:
+            print("No se pudo procesar ningún archivo.")
+            
+    except KeyboardInterrupt:
+        print("\nOperación cancelada por el usuario.")
+    except Exception as e:
+        logging.error(f"Error general en el procesamiento: {e}")
 
 if __name__ == "__main__":
-    convert_to_csv()
+    procesar_archivos()
+    
