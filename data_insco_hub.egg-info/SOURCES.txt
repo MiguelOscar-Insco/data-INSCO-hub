@@ -1,9 +1,0 @@
-README.md
-setup.py
-data_insco_hub.egg-info/PKG-INFO
-data_insco_hub.egg-info/SOURCES.txt
-data_insco_hub.egg-info/dependency_links.txt
-data_insco_hub.egg-info/top_level.txt
-src/__init__.py
-src/data_processing/__init__.py
-src/data_processing/ready_to_import.py
