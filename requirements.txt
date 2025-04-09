@@ -1,6 +1,48 @@
-numpy==1.24.3
-pandas==2.0.1
-scikit-learn==1.2.2
-matplotlib==3.7.1
-seaborn==0.12.2
-jupyterlab==4.0.0
+# Manipulación y análisis de datos
+pandas
+numpy
+polars
+dask
+datatable
+
+# Visualización
+matplotlib
+seaborn
+plotly
+altair
+bokeh
+holoviews
+
+# Machine Learning & Deep Learning
+scikit-learn
+xgboost
+lightgbm
+catboost
+tensorflow
+keras
+torch
+fastai
+
+# Estadística y matemática
+scipy
+statsmodels
+sympy
+pingouin
+
+# SQL y Bases de Datos
+pandasql
+sqlalchemy
+mysql-connector-python
+PyMySQL
+duckdb
+ibis-framework
+
+# Otros
+jupyter
+notebook
+ipython
+tqdm
+pyarrow
+openpyxl
+joblib
+
