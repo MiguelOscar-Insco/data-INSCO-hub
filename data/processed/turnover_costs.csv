@@ -1,0 +1,25 @@
+﻿genero,puesto,departamento,gerente,fecha_ingreso,fecha_salida,razon_salida,salario_anual,edad_salida,tiempo_empresa,nivel,costo_optimista,costo_peor_escenario
+Masculino,Metrologo Jr.,Tecnico,Gabriela Martinez Lugo,2024-04-30,2024-07-16,Despido,135600,26,0.21,nivel_1,47460.0,81360.0
+Masculino,Jefe de Laboratorio,Tecnico,Gabriela Martinez Lugo,2005-07-01,2024-01-26,Renuncia,294000,46,18.58,nivel_3,370440.0,438354.0
+Masculino,Metrologo,Tecnico,Gabriela Martinez Lugo,2019-01-01,2024-07-31,Renuncia,228000,28,5.58,nivel_2,159600.0,263340.0
+Femenino,Metrologo,Tecnico,Gabriela Martinez Lugo,2022-03-17,2024-09-04,Renuncia,156000,25,2.47,nivel_2,87360.0,141960.0
+Femenino,Supervisor de Laboratorio,Tecnico,Gabriela Martinez Lugo,2018-06-16,2024-08-30,Renuncia,192000,32,6.21,nivel_2,134400.0,221760.0
+Femenino,Metrologo Jr.,Tecnico,Gabriela Martinez Lugo,2024-02-28,2024-05-13,Renuncia,105600,24,0.21,nivel_1,25872.0,44352.0
+Masculino,Metrologo,Tecnico,Gabriela Martinez Lugo,2022-08-08,2024-06-12,Renuncia,204000,31,1.85,nivel_2,114240.0,185640.0
+Masculino,Metrologo Jr.,Tecnico,Gabriela Martinez Lugo,2024-06-27,2024-07-08,Renuncia,156000,28,0.03,nivel_1,10920.0,16380.0
+Masculino,Auxiliar de Calidad,Calidad,Martha Elisa Rodriguez Gonzalez,2022-06-01,2024-10-15,Renuncia,135600,29,2.38,nivel_1,14238.0,23730.0
+Masculino,Metrologo,Tecnico,Gabriela Martinez Lugo,2022-09-30,2024-05-03,Renuncia,135600,27,1.59,nivel_2,75936.0,123396.0
+Masculino,Representante Comercial Sr.,Comercial,Maria G. Rodriguez Suarez,2023-06-01,2024-06-28,Renuncia,164400,39,1.08,nivel_2,57540.0,109326.0
+Masculino,Metrologo Jr.,Tecnico,Gabriela Martinez Lugo,2023-01-30,2024-05-03,Renuncia,135600,27,1.26,nivel_1,16136.4,28476.0
+Masculino,Metrologo,Tecnico,Gabriela Martinez Lugo,2020-08-02,2024-05-27,Renuncia,258000,35,3.82,nivel_2,180600.0,297990.0
+Masculino,Recepcion de Items,Operaciones,Martha Elisa Rodriguez Gonzalez,2023-07-17,2024-05-15,Renuncia,96000,24,0.83,nivel_1,16800.0,26880.0
+Masculino,Becario,Tecnico,Gabriela Martinez Lugo,2024-02-09,2024-07-16,Renuncia,108000,24,0.43,nivel_1,26460.0,45360.0
+Masculino,Auxiliar de Calidad,Operaciones,Martha Elisa Rodriguez Gonzalez,2021-01-21,2024-05-30,Renuncia,174000,32,3.36,nivel_1,14616.0,24360.0
+Femenino,Metrologo Jr.,Tecnico,Gabriela Martinez Lugo,2024-02-29,2024-05-31,Despido,135600,27,0.25,nivel_1,47460.0,81360.0
+Femenino,Jefe de Laboratorio,Tecnico,Gabriela Martinez Lugo,2021-07-01,2024-07-15,Renuncia,228000,26,3.04,nivel_3,287280.0,339948.0
+Masculino,Lider Regional de Sucursal,Comercial,Fernando Denio Hernandez,2019-02-13,2024-06-28,Renuncia,135600,33,5.38,nivel_2,94920.0,156618.0
+Femenino,Jefe de Laboratorio,Tecnico,Gabriela Martinez Lugo,2018-10-01,2024-01-02,Renuncia,276000,41,5.26,nivel_3,347760.0,411516.0
+Masculino,Metrologo ,Tecnico,Gabriela Martinez Lugo,2021-07-01,2024-10-10,Despido,180000,31,3.28,nivel_2,180000.0,297000.0
+Masculino,Auxiliar de Administrativo,Operaciones,Miguel Contreras Ozuna,2024-01-16,2024-05-03,Renuncia,156000,26,0.3,nivel_1,38220.0,65520.0
+Masculino,Metrologo Jr.,Tecnico,Gabriela Martinez Lugo,2022-11-01,2024-03-20,Renuncia,156000,25,1.38,nivel_1,18564.0,32760.0
+Masculino,Metrologo Jr.,Tecnico,Gabriela Martinez Lugo,2024-06-05,2024-08-08,Despido,135600,33,0.18,nivel_1,47460.0,81360.0
